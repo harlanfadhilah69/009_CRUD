@@ -29,7 +29,7 @@ db.connect((err) => {
     console.log('Connection successfully');
 })
 
-//menambah get
+
 app.get('/api/users', (req, res) => {
     db.query('SELECT * from mahasiswa', (err, results)=>{
         if(err){
@@ -41,7 +41,7 @@ app.get('/api/users', (req, res) => {
     })
 })
 
-/
+
 app.post('/api/users', (req,res)=>{
     const { nama, nim, kelas } = req.body;
 
@@ -62,29 +62,3 @@ app.post('/api/users', (req,res)=>{
     );
 });
 
-app.put("/api/users/:id", (req,res)=> {
-    const userId = req.params.id;
-    const {nama, nim, kelas} = req.body;
-    db.query(
-        'UPDATE mahasiswa SET nama = ?, nim = ?, kelas = ? WHERE id = ?',
-        [nama, nim, kelas, userId],
-        (err, results) => {
-            if (err){
-                console.error(err);
-                return res.status(500).json({ message: 'Database error'});
-            }
-            res.json({ message: 'User update successfully'});
-        }
-    )
-})
-
-app.delete('/api/users/:id', (req,res)=>{
-    const userId = req.params.id;
-    db.query('DELETE FROM mahasiswa WHERE id = ?', [userId], (err,results)=> {
-        if (err){
-            console.error(err);
-            return res.status(500).json({ message: 'Database error'});
-        }
-        res.json({message: 'User deleted successfully'});
-    })
-})
